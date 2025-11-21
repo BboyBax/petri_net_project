@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pnml xmlns="http://www.pnml.org/version-2009/grammar/pnml">
+  <net id="piscine_model" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <name><text>DefaultPage</text></name>
+    
+    <!-- Places -->
+    <place id="Cabines">
+      <name><text>Cabines</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    
+    <place id="Attente_P">
+      <name><text>Attente_P</text></name>
+      <initialMarking><text>0</text></initialMarking>
+    </place>
+    
+    <place id="Paniers">
+      <name><text>Paniers</text></name>
+      <initialMarking><text>1</text></initialMarking>
+    </place>
+    
+    <place id="Entree">
+      <name><text>Entree</text></name>
+      <initialMarking><text>3</text></initialMarking>
+    </place>
+    
+    <place id="Sortie">
+      <name><text>Sortie</text></name>
+      <initialMarking><text>0</text></initialMarking>
+    </place>
+    
+    <place id="Fini">
+      <name><text>Fini</text></name>
+      <initialMarking><text>0</text></initialMarking>
+    </place>
+    
+    <place id="Piscine">
+      <name><text>Piscine</text></name>
+      <initialMarking><text>0</text></initialMarking>
+    </place>
+    
+    <!-- Transitions -->
+    <transition id="Habillage">
+      <name><text>Habillage</text></name>
+    </transition>
+    
+    <transition id="Deshabillage">
+      <name><text>Deshabillage</text></name>
+    </transition>
+    
+    <transition id="Baignade">
+      <name><text>Baignade</text></name>
+    </transition>
+    
+    <transition id="Entrer_Piscine">
+      <name><text>Entrer_Piscine</text></name>
+    </transition>
+    
+    <transition id="R_Panier">
+      <name><text>R_Panier</text></name>
+    </transition>
+    
+    <transition id="P_Cle2">
+      <name><text>P_Cle2</text></name>
+    </transition>
+    
+    <transition id="R_Cles">
+      <name><text>R_Cles</text></name>
+    </transition>
+    
+    <transition id="P_Cle1">
+      <name><text>P_Cle1</text></name>
+    </transition>
+    
+    <transition id="R_Cle1">
+      <name><text>R_Cle1</text></name>
+    </transition>
+    
+    <transition id="P_Panier">
+      <name><text>P_Panier</text></name>
+    </transition>
+    
+    <!-- Arcs - Vous devez spécifier les connexions selon votre modèle -->
+    <!-- Exemple de connexions basées sur un modèle typique de piscine: -->
+    
+    <!-- Entrée → Déshabillage -->
+    <arc id="a1" source="Entree" target="Deshabillage">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Déshabillage → Attente_P -->
+    <arc id="a2" source="Deshabillage" target="Attente_P">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Cabines → Déshabillage -->
+    <arc id="a3" source="Cabines" target="Deshabillage">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Paniers → P_Panier -->
+    <arc id="a4" source="Paniers" target="P_Panier">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Attente_P → Entrer_Piscine -->
+    <arc id="a5" source="Attente_P" target="Entrer_Piscine">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- P_Panier → Entrer_Piscine -->
+    <arc id="a6" source="P_Panier" target="Entrer_Piscine">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Entrer_Piscine → Piscine -->
+    <arc id="a7" source="Entrer_Piscine" target="Piscine">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Piscine → Baignade -->
+    <arc id="a8" source="Piscine" target="Baignade">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Baignade → Sortie -->
+    <arc id="a9" source="Baignade" target="Sortie">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Sortie → R_Panier -->
+    <arc id="a10" source="Sortie" target="R_Panier">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- R_Panier → Paniers (retour panier) -->
+    <arc id="a11" source="R_Panier" target="Paniers">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- R_Panier → Attente cabine -->
+    <arc id="a12" source="R_Panier" target="R_Cle1">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- R_Cle1 → Habillage -->
+    <arc id="a13" source="R_Cle1" target="Habillage">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Cabines disponible → Habillage -->
+    <arc id="a14" source="Cabines" target="Habillage">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Habillage → Fini -->
+    <arc id="a15" source="Habillage" target="Fini">
+      <inscription><text>1</text></inscription>
+    </arc>
+    
+    <!-- Habillage → Cabines (libérer cabine) -->
+    <arc id="a16" source="Habillage" target="Cabines">
+      <inscription><text>1</text></inscription>
+    </arc>   
+  </net>
+</pnml>
