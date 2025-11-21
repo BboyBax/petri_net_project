@@ -1,5 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "./petri_net_project-main/src"
-    ]
-}
