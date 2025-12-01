@@ -85,13 +85,13 @@ class PetriNet:
             t_name = name_transition.text if name_transition is not None else None
             trans_names.append(t_name)
 
-            # Inital matrix I, O, M0
-            num_places = len(place_id)
-            num_trans = len(trans_id)
+        # Inital matrix I, O, M0
+        num_places = len(place_id)
+        num_trans = len(trans_id)
 
-            I = np.zeros((num_trans, num_places), dtype=int)
-            O = np.zeros((num_trans, num_places), dtype=int)
-            M0 = np.array(initial_marking, dtype=int)
+        I = np.zeros((num_trans, num_places), dtype=int)
+        O = np.zeros((num_trans, num_places), dtype=int)
+        M0 = np.array(initial_marking, dtype=int)
 
         # ============================================================
         # 3) Parse arcs (source, target, weight)
@@ -146,6 +146,56 @@ class PetriNet:
 
         return cls(place_id, trans_id, arc_ids, place_names, trans_names, I, O, M0, pre_weight, post_weight)
 
+    def validate(self) -> list[str]:
+        """
+        Kiểm tra các lỗi nghiêm trọng trong Petri Net.
+        Trả về list lỗi (rỗng nếu không có lỗi).
+        """
+        errors = []
+
+        # 1. Kiểm tra ID rỗng
+        for pid in self.place_ids:
+            if not pid or pid.strip() == "":
+                errors.append("Place ID is missing or empty")
+        for tid in self.trans_ids:
+            if not tid or tid.strip() == "":
+                errors.append("Transition ID is missing or empty")
+
+        # 2. Kiểm tra trùng ID trong cùng loại
+        if len(self.place_ids) != len(set(self.place_ids)):
+            errors.append("Duplicate Place IDs detected")
+        if len(self.trans_ids) != len(set(self.trans_ids)):
+            errors.append("Duplicate Transition IDs detected")
+
+        # 3. Kiểm tra ID trùng giữa Place và Transition (tuỳ chọn)
+        overlap = set(self.place_ids).intersection(set(self.trans_ids))
+        if overlap:
+            errors.append(f"ID used as both Place and Transition: {overlap}")
+
+        # 4. Kiểm tra marking âm
+        for i, m in enumerate(self.M0):
+            if m < 0:
+                errors.append(f"Initial marking of place {self.place_ids[i]} is negative: {m}")
+
+        # 5. Kiểm tra arcs
+        valid_ids = set(self.place_ids) | set(self.trans_ids)
+        for arc in self.arcs_ids:
+            s, t, w = arc['source'], arc['target'], arc['weight']
+
+            if s not in valid_ids:
+                errors.append(f"Arc source not found: {s}")
+            if t not in valid_ids:
+                errors.append(f"Arc target not found: {t}")
+
+            if (s in self.place_ids and t in self.place_ids) or \
+               (s in self.trans_ids and t in self.trans_ids):
+                errors.append(f"Invalid arc structure: {s} -> {t}")
+
+            if not isinstance(w, int) or w <= 0:
+                errors.append(f"Invalid arc weight {w} for arc {s}->{t}")
+
+        return errors
+
     def __str__(self) -> str:
         s = []
         s.append("Places: " + str(self.place_ids))
@@ -159,9 +209,12 @@ class PetriNet:
         s.append("\nInitial marking M0:")
         s.append(str(self.M0))
         s.append("\nPre_weight matrix:")
-        s.append(dict(self.pre_weight))
-        s.append("\npost_weight matrix:")
-        s.append(dict(self.post_weight))
+        s.append(str(self.pre_weight))   # ép sang str
+        s.append("\nPost_weight matrix:")
+        s.append(str(self.post_weight))  # ép sang str
         s.append("\nArcs:")
-        s.append(str(self.arcs_ids))
+        s.append(str(self.arcs_ids))     # ép sang str
         return "\n".join(s)
+
+    
+  

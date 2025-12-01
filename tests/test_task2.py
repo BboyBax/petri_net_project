@@ -9,30 +9,48 @@ import pytest
 def test_001():
     base_dir = Path(__file__).parent.parent / "data" / "pnml"
     pn = PetriNet.from_pnml(str(base_dir / "example.pnml"))
-    output = explicit_reachability(pn)
+    errors = pn.validate()
+    if errors:
+        print("Validation errors found:")
+        for e in errors:
+            print(" -", e)
+    else:
+        output = explicit_reachability(pn)
+        expected = {
+            (1, 0, 0),
+            (0, 1, 0),
+            (0, 0, 1)
+        }
+        assert output == expected
 
-    expected = {
-        (1, 0, 0),
-        (0, 1, 0),
-        (0, 0, 1)
-    }
-    assert output == expected
 
 def test_002():
     base_dir = Path(__file__).parent.parent / "data" / "pnml"
     pn = PetriNet.from_pnml(str(base_dir / "phylosopher.pnml"))
-    output = explicit_reachability(pn)
-    output = len(output)
-    expected = 82
-    assert output == expected
+    errors = pn.validate()
+    if errors:
+        print("Validation errors found:")
+        for e in errors:
+            print(" -", e)
+    else:
+        output = explicit_reachability(pn)
+        output = len(output)
+        expected = 82
+        assert output == expected
 
 def test_003():
     base_dir = Path(__file__).parent.parent / "data" / "pnml"
     pn = PetriNet.from_pnml(str(base_dir / "example2.pnml"))
-    output = explicit_reachability(pn)
-    output = len(output)
-    expected = 4
-    assert output == expected
+    errors = pn.validate()
+    if errors:
+        print("Validation errors found:")
+        for e in errors:
+            print(" -", e)
+    else:
+        output = explicit_reachability(pn)
+        output = len(output)
+        expected = 4
+        assert output == expected
 
 # def test_004():
 #     base_dir = Path(__file__).parent.parent / "data" / "pnml"

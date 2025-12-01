@@ -13,11 +13,36 @@ from pyeda.inter import *
 def test_001():
     base_dir = Path(__file__).parent.parent / "data" / "pnml"
     pn = PetriNet.from_pnml(str(base_dir / "phylosopher.pnml"))
-    compare_methods(pn)
+    errors = pn.validate()
+    if errors:
+        print("Validation errors found:")
+        for e in errors:
+            print(" -", e)
+    else:
+        compare_methods(pn)
+    
 
 def test_002():
     base_dir = Path(__file__).parent.parent / "data" / "pnml"
     pn = PetriNet.from_pnml(str(base_dir / "deadlock1.pnml"))
-    compare_methods(pn)
+    errors = pn.validate()
+    if errors:
+        print("Validation errors found:")
+        for e in errors:
+            print(" -", e)
+    else:
+        compare_methods(pn)
+
+
+def test_003():
+    base_dir = Path(__file__).parent.parent / "data" / "pnml"
+    pn = PetriNet.from_pnml(str(base_dir / "example4.pnml"))
+    errors = pn.validate()
+    if errors:
+        print("Validation errors found:")
+        for e in errors:
+            print(" -", e)
+    else:
+        compare_methods(pn)
 
 

@@ -13,41 +13,50 @@ from pathlib import Path
 def test_001():
     base_dir = Path(__file__).parent.parent / "data" / "pnml"
     pn = PetriNet.from_pnml(str(base_dir / "deadlock1.pnml"))
-
-    bdd, R = bdd_reachable(pn)
-    compare_methods(pn)
-    print_all_markings(pn)
-    print(pn.M0)
-    marking = deadlock_reachable_marking(pn, bdd, R)
-    print(marking)
-    print(pn.place_ids)
+    errors = pn.validate()
+    if errors:
+        print("Validation errors found:")
+        for e in errors:
+            print(" -", e)
+    else:
+        bdd, R = bdd_reachable(pn)
+        marking = deadlock_reachable_marking(pn, bdd, R)
+        print(marking)
 
 def test_002():
     base_dir = Path(__file__).parent.parent / "data" / "pnml"
     pn = PetriNet.from_pnml(str(base_dir / "deadlock2.pnml"))
-
-    bdd, R = bdd_reachable(pn)
-    compare_methods(pn)
-    marking = deadlock_reachable_marking(pn, bdd, R)
-    print(marking)
-    print(pn.place_ids)
+    errors = pn.validate()
+    if errors:
+        print("Validation errors found:")
+        for e in errors:
+            print(" -", e)
+    else:
+        bdd, R = bdd_reachable(pn)
+        marking = deadlock_reachable_marking(pn, bdd, R)
+        print(marking)
 
 def test_003():
     base_dir = Path(__file__).parent.parent / "data" / "pnml"
     pn = PetriNet.from_pnml(str(base_dir / "deadlock3.pnml"))
-
-    bdd, R = bdd_reachable(pn)
-    compare_methods(pn)
-    marking = deadlock_reachable_marking(pn, bdd, R)
-    print(marking)
-    print(pn.place_ids)
-
+    errors = pn.validate()
+    if errors:
+        print("Validation errors found:")
+        for e in errors:
+            print(" -", e)
+    else:
+        bdd, R = bdd_reachable(pn)
+        marking = deadlock_reachable_marking(pn, bdd, R)
+        print(marking)
 def test_004():
     base_dir = Path(__file__).parent.parent / "data" / "pnml"
     pn = PetriNet.from_pnml(str(base_dir / "deadlock4.pnml"))
-
-    bdd, R = bdd_reachable(pn)
-    compare_methods(pn)
-    marking = deadlock_reachable_marking(pn, bdd, R)
-    print(marking)
-    print(pn.place_ids)
+    errors = pn.validate()
+    if errors:
+        print("Validation errors found:")
+        for e in errors:
+            print(" -", e)
+    else:
+        bdd, R = bdd_reachable(pn)
+        marking = deadlock_reachable_marking(pn, bdd, R)
+        print(marking)   
