@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pnml xmlns="http://www.pnml.org/version-2009/grammar/pnml">
+  <net id="DeadlockNet3" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <page id="page0">
+
+      <!-- Resources -->
+      <place id="RES_A"><initialMarking><text>1</text></initialMarking></place>
+      <place id="RES_B"><initialMarking><text>1</text></initialMarking></place>
+
+      <!-- Process start places -->
+      <place id="P1_START"><initialMarking><text>1</text></initialMarking></place>
+      <place id="P2_START"><initialMarking><text>1</text></initialMarking></place>
+      <place id="P3_START"><initialMarking><text>1</text></initialMarking></place>
+
+      <!-- Waiting places -->
+      <place id="P1_WAIT"/>
+      <place id="P2_WAIT"/>
+      <place id="P3_WAIT"/>
+
+      <!-- Done places -->
+      <place id="P1_DONE"/>
+      <place id="P2_DONE"/>
+      <place id="P3_DONE"/>
+
+      <!-- Transitions -->
+      <transition id="P1_TAKE_A"/>
+      <transition id="P1_TAKE_B"/>
+      <transition id="P2_TAKE_B"/>
+      <transition id="P2_TAKE_A"/>
+      <transition id="P3_TAKE_A"/>
+      <transition id="P3_TAKE_B"/>
+
+      <!-- Process 1: lấy A rồi chờ B -->
+      <arc id="p1_start_to_takeA" source="P1_START" target="P1_TAKE_A"/>
+      <arc id="p1_resA_to_takeA" source="RES_A" target="P1_TAKE_A"/>
+      <arc id="p1_takeA_to_wait" source="P1_TAKE_A" target="P1_WAIT"/>
+      <arc id="p1_wait_to_takeB" source="P1_WAIT" target="P1_TAKE_B"/>
+      <arc id="p1_resB_to_takeB" source="RES_B" target="P1_TAKE_B"/>
+      <arc id="p1_takeB_to_done" source="P1_TAKE_B" target="P1_DONE"/>
+
+      <!-- Process 2: lấy B rồi chờ A -->
+      <arc id="p2_start_to_takeB" source="P2_START" target="P2_TAKE_B"/>
+      <arc id="p2_resB_to_takeB" source="RES_B" target="P2_TAKE_B"/>
+      <arc id="p2_takeB_to_wait" source="P2_TAKE_B" target="P2_WAIT"/>
+      <arc id="p2_wait_to_takeA" source="P2_WAIT" target="P2_TAKE_A"/>
+      <arc id="p2_resA_to_takeA" source="RES_A" target="P2_TAKE_A"/>
+      <arc id="p2_takeA_to_done" source="P2_TAKE_A" target="P2_DONE"/>
+
+      <!-- Process 3: lấy A rồi chờ B (giống P1, tạo vòng phức tạp hơn) -->
+      <arc id="p3_start_to_takeA" source="P3_START" target="P3_TAKE_A"/>
+      <arc id="p3_resA_to_takeA" source="RES_A" target="P3_TAKE_A"/>
+      <arc id="p3_takeA_to_wait" source="P3_TAKE_A" target="P3_WAIT"/>
+      <arc id="p3_wait_to_takeB" source="P3_WAIT" target="P3_TAKE_B"/>
+      <arc id="p3_resB_to_takeB" source="RES_B" target="P3_TAKE_B"/>
+      <arc id="p3_takeB_to_done" source="P3_TAKE_B" target="P3_DONE"/>
+
+    </page>
+  </net>
+</pnml>

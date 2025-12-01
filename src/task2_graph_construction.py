@@ -71,6 +71,20 @@ def compute_reachability_dfs(pn: PetriNet) -> Set[Tuple[int, ...]]:
                     
     return visited
 
+def print_all_markings(pn: PetriNet):
+    places = pn.place_ids
+    reachable = explicit_reachability(pn)
+
+    print("===== Reachable Markings =====")
+    for idx, marking in enumerate(reachable):
+        # marking là tuple (m0, m1, ..., mn)
+        vec_str = "[" + ", ".join(str(v) for v in marking) + "]"
+        map_str = "{" + ", ".join(f"{places[i]}:{marking[i]}" for i in range(len(places))) + "}"
+        print(f"m{idx}: {vec_str}  |  {map_str}")
+    print(f"Tổng số reachable markings: {len(reachable)}")
+    print("===================================")
+
+
 def explicit_reachability(pn: PetriNet) -> Set[Tuple[int, ...]]:
     visisted_BFS = compute_reachability_bfs(pn)
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pnml xmlns="http://www.pnml.org/version-2009/grammar/pnml">
+  <net id="OptTestNet2" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <page id="page0">
+
+      <!-- Places (1-safe) -->
+      <place id="p1"><initialMarking><text>1</text></initialMarking></place>
+      <place id="p2"/>
+      <place id="p3"/>
+      <place id="p4"/>
+      <place id="p5"/>
+
+      <!-- Transitions -->
+      <transition id="t12"/>
+      <transition id="t23"/>
+      <transition id="t24"/>
+      <transition id="t35"/>
+      <transition id="t45"/>
+
+      <!-- p1 -> p2 -->
+      <arc id="a_p1_t12" source="p1" target="t12"/>
+      <arc id="a_t12_p2" source="t12" target="p2"/>
+
+      <!-- p2 -> p3 -->
+      <arc id="a_p2_t23" source="p2" target="t23"/>
+      <arc id="a_t23_p3" source="t23" target="p3"/>
+
+      <!-- p2 -> p4 -->
+      <arc id="a_p2_t24" source="p2" target="t24"/>
+      <arc id="a_t24_p4" source="t24" target="p4"/>
+
+      <!-- p3 -> p5 -->
+      <arc id="a_p3_t35" source="p3" target="t35"/>
+      <arc id="a_t35_p5" source="t35" target="p5"/>
+
+      <!-- p4 -> p5 -->
+      <arc id="a_p4_t45" source="p4" target="t45"/>
+      <arc id="a_t45_p5" source="t45" target="p5"/>
+
+    </page>
+  </net>
+</pnml>

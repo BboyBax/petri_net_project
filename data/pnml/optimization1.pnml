@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pnml xmlns="http://www.pnml.org/version-2009/grammar/pnml">
+  <net id="OptTestNet" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <page id="page0">
+
+      <!-- Places (1-safe) -->
+      <place id="p1"><initialMarking><text>1</text></initialMarking></place>
+      <place id="p2"/>
+      <place id="p3"/>
+      <place id="p4"/>
+
+      <!-- Transitions -->
+      <transition id="t12"/>
+      <transition id="t23"/>
+      <transition id="t24"/>
+
+      <!-- p1 -> p2 -->
+      <arc id="a_p1_t12" source="p1" target="t12"/>
+      <arc id="a_t12_p2" source="t12" target="p2"/>
+
+      <!-- p2 -> p3 -->
+      <arc id="a_p2_t23" source="p2" target="t23"/>
+      <arc id="a_t23_p3" source="t23" target="p3"/>
+
+      <!-- p2 -> p4 -->
+      <arc id="a_p2_t24" source="p2" target="t24"/>
+      <arc id="a_t24_p4" source="t24" target="p4"/>
+
+    </page>
+  </net>
+</pnml>

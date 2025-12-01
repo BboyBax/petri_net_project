@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pnml xmlns="http://www.pnml.org/version-2009/grammar/pnml">
+  <net id="DeadlockNet" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <page id="page0">
+
+      <!-- Places: tài nguyên và trạng thái tiến trình -->
+      <place id="RES_A"><initialMarking><text>1</text></initialMarking></place>
+      <place id="RES_B"><initialMarking><text>1</text></initialMarking></place>
+
+      <place id="P1_START"><initialMarking><text>1</text></initialMarking></place>
+      <place id="P2_START"><initialMarking><text>1</text></initialMarking></place>
+
+      <place id="P1_WAIT"/>
+      <place id="P2_WAIT"/>
+      <place id="P1_DONE"/>
+      <place id="P2_DONE"/>
+
+      <!-- Transitions -->
+      <transition id="P1_TAKE_A"/>
+      <transition id="P1_TAKE_B"/>
+      <transition id="P2_TAKE_B"/>
+      <transition id="P2_TAKE_A"/>
+
+      <!-- Arcs cho Process 1 -->
+      <arc id="p1_start_to_takeA" source="P1_START" target="P1_TAKE_A"/>
+      <arc id="p1_resA_to_takeA" source="RES_A" target="P1_TAKE_A"/>
+      <arc id="p1_takeA_to_wait" source="P1_TAKE_A" target="P1_WAIT"/>
+
+      <arc id="p1_wait_to_takeB" source="P1_WAIT" target="P1_TAKE_B"/>
+      <arc id="p1_resB_to_takeB" source="RES_B" target="P1_TAKE_B"/>
+      <arc id="p1_takeB_to_done" source="P1_TAKE_B" target="P1_DONE"/>
+
+      <!-- Arcs cho Process 2 -->
+      <arc id="p2_start_to_takeB" source="P2_START" target="P2_TAKE_B"/>
+      <arc id="p2_resB_to_takeB" source="RES_B" target="P2_TAKE_B"/>
+      <arc id="p2_takeB_to_wait" source="P2_TAKE_B" target="P2_WAIT"/>
+
+      <arc id="p2_wait_to_takeA" source="P2_WAIT" target="P2_TAKE_A"/>
+      <arc id="p2_resA_to_takeA" source="RES_A" target="P2_TAKE_A"/>
+      <arc id="p2_takeA_to_done" source="P2_TAKE_A" target="P2_DONE"/>
+
+    </page>
+  </net>
+</pnml>

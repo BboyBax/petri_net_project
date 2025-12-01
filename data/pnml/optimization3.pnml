@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pnml xmlns="http://www.pnml.org/version-2009/grammar/pnml">
+  <net id="ComplexNet" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <page id="page0">
+
+      <!-- Places -->
+      <place id="p1"><initialMarking><text>1</text></initialMarking></place>
+      <place id="p2"/>
+      <place id="p3"/>
+      <place id="p4"/>
+      <place id="p5"/>
+      <place id="p6"/>
+      <place id="p7"/>
+      <place id="p8"/>
+      <place id="p9"/>
+      <place id="p10"/>
+
+      <!-- Transitions -->
+      <transition id="t12"/>
+      <transition id="t23"/>
+      <transition id="t24"/>
+      <transition id="t35"/>
+      <transition id="t36"/>
+      <transition id="t47"/>
+      <transition id="t48"/>
+      <transition id="t59"/>
+      <transition id="t610"/>
+      <transition id="t79"/>
+      <transition id="t810"/>
+      <transition id="t910"/>
+      <transition id="t_loop"/>
+
+      <!-- Arcs -->
+      <!-- p1 -> p2 -->
+      <arc id="a_p1_t12" source="p1" target="t12"/>
+      <arc id="a_t12_p2" source="t12" target="p2"/>
+
+      <!-- p2 -> p3, p4 -->
+      <arc id="a_p2_t23" source="p2" target="t23"/>
+      <arc id="a_t23_p3" source="t23" target="p3"/>
+      <arc id="a_p2_t24" source="p2" target="t24"/>
+      <arc id="a_t24_p4" source="t24" target="p4"/>
+
+      <!-- p3 -> p5, p6 -->
+      <arc id="a_p3_t35" source="p3" target="t35"/>
+      <arc id="a_t35_p5" source="t35" target="p5"/>
+      <arc id="a_p3_t36" source="p3" target="t36"/>
+      <arc id="a_t36_p6" source="t36" target="p6"/>
+
+      <!-- p4 -> p7, p8 -->
+      <arc id="a_p4_t47" source="p4" target="t47"/>
+      <arc id="a_t47_p7" source="t47" target="p7"/>
+      <arc id="a_p4_t48" source="p4" target="t48"/>
+      <arc id="a_t48_p8" source="t48" target="p8"/>
+
+      <!-- p5 -> p9 -->
+      <arc id="a_p5_t59" source="p5" target="t59"/>
+      <arc id="a_t59_p9" source="t59" target="p9"/>
+
+      <!-- p6 -> p10 -->
+      <arc id="a_p6_t610" source="p6" target="t610"/>
+      <arc id="a_t610_p10" source="t610" target="p10"/>
+
+      <!-- p7 -> p9 -->
+      <arc id="a_p7_t79" source="p7" target="t79"/>
+      <arc id="a_t79_p9" source="t79" target="p9"/>
+
+      <!-- p8 -> p10 -->
+      <arc id="a_p8_t810" source="p8" target="t810"/>
+      <arc id="a_t810_p10" source="t810" target="p10"/>
+
+      <!-- p9 -> p10 -->
+      <arc id="a_p9_t910" source="p9" target="t910"/>
+      <arc id="a_t910_p10" source="t910" target="p10"/>
+
+      <!-- Loop: p10 -> p2 (quay lại) -->
+      <arc id="a_p10_tloop" source="p10" target="t_loop"/>
+      <arc id="a_tloop_p2" source="t_loop" target="p2"/>
+
+    </page>
+  </net>
+</pnml>
