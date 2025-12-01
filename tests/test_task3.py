@@ -2,8 +2,8 @@ import numpy as np
 import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.task1_parser import PetriNet
-from src.task2_graph_construction import explicit_reachability, print_all_markings
-from src.task3_bdd_computation import bdd_reachable, compare_methods, extract_markings, print_all_markings_bdd
+from src.task2_explicit_reachability import explicit_reachability, print_all_markings
+from src.task3_symbolic_reachability import bdd_reachable, compare_methods, extract_markings, print_all_markings_bdd
 from pathlib import Path
 import pytest
 

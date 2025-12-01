@@ -1,9 +1,9 @@
 import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from src.task4_ilp_formulation import deadlock_reachable_marking
+from src.task4_deadlock_detection import deadlock_reachable_marking
 from src.task1_parser import PetriNet
-from src.task3_bdd_computation import bdd_reachable, compare_methods, print_all_markings_bdd
-from src.task2_graph_construction import explicit_reachability, print_all_markings
+from src.task3_symbolic_reachability import bdd_reachable, compare_methods, print_all_markings_bdd
+from src.task2_explicit_reachability import explicit_reachability, print_all_markings
 from pyeda.inter import *
 import pytest
 import numpy as np

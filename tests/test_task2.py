@@ -2,7 +2,7 @@ import numpy as np
 import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.task1_parser import PetriNet
-from src.task2_graph_construction import explicit_reachability
+from src.task2_explicit_reachability import explicit_reachability
 from pathlib import Path
 import pytest
 

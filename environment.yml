@@ -1,0 +1,10 @@
+name: petri-net-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy
+  - pyeda
+  - pulp
+  - dd
+  - pytest
