@@ -17,77 +17,10 @@ import time
 import tracemalloc
 import psutil, os
 
-# def bdd_reachable(pn: PetriNet) -> Tuple[BinaryDecisionDiagram, int]:
-#     places = pn.place_ids
-
-#     # Init BDD Var
-#     current_vars = {pid: bddvar(pid) for pid in places}
-#     next_vars = {pid: bddvar(pid + '_next') for pid in places}
-
-#     # Decode Intial M0
-#     M0_bdd = 1
-#     for i, pid in enumerate(places):
-#         if pn.M0[i] == 1:
-#             M0_bdd &= current_vars[pid]
-#         else:
-#             M0_bdd &= ~current_vars[pid]    
-
-#     # Build Transition
-#     transition_relation = 0
-#     num_transitions = pn.I.shape[0]
-
-#     for t_idx in range(num_transitions):
-#         transition_expr = 1
-#         for p_idx, p_id in enumerate(places):
-#             curr_var = current_vars[p_id]
-#             next_var = next_vars[p_id]
-            
-#             is_input_place = (pn.I[t_idx, p_idx] == 1)
-#             is_output_place = (pn.O[t_idx, p_idx] == 1)
-
-#             if is_input_place:
-#                 transition_expr &= curr_var
-#             if is_output_place and not is_input_place:
-#                 transition_expr &= ~curr_var
-
-#             if is_output_place:
-#                 transition_expr &= next_var
-#             elif is_input_place:
-#                 transition_expr &= ~next_var
-#             else:
-#                 transition_expr &= ~(curr_var ^ next_var)
-
-#         transition_relation |= transition_expr
-
-#     R = M0_bdd
-#     current_var_list = list(current_vars.values())
-#     iteration = 0
-#     while True:
-#         R_next = (R & transition_relation).smoothing(current_var_list)
-#         rename = {next_vars[pid]: current_vars[pid] for pid in places}
-#         R_next_as_curr = R_next.compose(rename)
-
-#         R_new = R | R_next_as_curr
-#         if R_new.equivalent(R):
-#             break
-#         R = R_new
-#         if iteration > 10000:
-#             break
-
-#     count = len(list(R.satisfy_all()))
-    
-#     return R, count
-
 from dd.autoref import BDD
 from typing import Dict, List, Tuple, Iterator
-import sys, os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from src.task1_parser import PetriNet
-from src.task2_explicit_reachability import explicit_reachability
 
-import time
-import tracemalloc
-import psutil
+
 
 # Số bit mặc định (tăng nếu cần cho PNML có token > 2**BITS-1)
 BITS = 1
@@ -112,47 +45,6 @@ def bdd_or(bdd: BDD, a, b):
 
 def bdd_not(bdd: BDD, u):
     return bdd.apply('not', u)
-
-def const_bits(c: int) -> List[int]:
-    return [(c >> i) & 1 for i in range(BITS)]
-
-def bdd_ge(bdd: BDD, x_bits: List[str], y_bits: List[int]):
-    ge = bdd.false
-    eq_prefix = bdd.true
-    for i in reversed(range(BITS)):
-        x = bdd.var(x_bits[i])
-        y = bdd.true if y_bits[i] else bdd.false
-        greater = bdd_and(bdd, x, bdd_not(bdd, y))
-        ge = bdd_or(bdd, ge, bdd_and(bdd, eq_prefix, greater))
-        term1 = bdd_and(bdd, x, y)
-        term2 = bdd_and(bdd, bdd_not(bdd, x), bdd_not(bdd, y))
-        eq_prefix = bdd_and(bdd, eq_prefix, bdd_or(bdd, term1, term2))
-    ge = bdd_or(bdd, ge, eq_prefix)
-    return ge
-
-def bdd_add_const(bdd: BDD, x_bits: List[str], delta: int, next_bits: List[str]):
-    const = const_bits(delta & ((1 << BITS)-1))
-    carry = bdd.false
-    first = True
-    constraints = bdd.true
-    for i in range(BITS):
-        x = bdd.var(x_bits[i])
-        c = bdd.true if const[i] else bdd.false
-        nx = bdd.var(next_bits[i])
-        if first:
-            s = bdd.apply('xor', x, c)
-            carry = bdd_and(bdd, x, c)
-            first = False
-        else:
-            t = bdd.apply('xor', x, c)
-            s = bdd.apply('xor', t, carry)
-            term1 = bdd_and(bdd, x, c)
-            term2 = bdd_and(bdd, x, carry)
-            term3 = bdd_and(bdd, c, carry)
-            carry = bdd_or(bdd, term1, bdd_or(bdd, term2, term3))
-        eq = bdd_iff(bdd, nx, s)
-        constraints = bdd_and(bdd, constraints, eq)
-    return constraints
 
 # ----- build transition relation -----
 def build_tr(bdd, places, transitions, arcs, pre_weight, post_weight):
@@ -274,7 +166,7 @@ def print_all_markings_bdd(pn: PetriNet, bdd: BDD, R) -> None:
         print(f"m{count}: {marking_vec}  |  " +
               "{" + ", ".join(f"{p}:{marking_vec[i]}" for i, p in enumerate(places)) + "}")
         count += 1
-    print(f"Tổng số reachable markings: {count}")
+    print(f"Sum of reachable markings: {count}")
 
 def compare_methods(pn: PetriNet):
     results = {}
@@ -285,7 +177,7 @@ def compare_methods(pn: PetriNet):
     current, peak = tracemalloc.get_traced_memory()
     tracemalloc.stop()
     results['BDD'] = {
-        'count': sum(1 for _ in extract_markings(bdd, R, pn.place_ids)),  # đếm chuẩn theo marking
+        'count': sum(1 for _ in extract_markings(bdd, R, pn.place_ids)), 
         'time': end - start,
         'memory_MB': peak / 1024**2
     }
@@ -305,7 +197,7 @@ def compare_methods(pn: PetriNet):
     process = psutil.Process(os.getpid())
     results['ProcessMemory_MB'] = process.memory_info().rss / 1024**2
 
-    print("===== So sánh BDD và Explicit =====")
+    print("===== Compare BDD with Explicit =====")
     for method, info in results.items():
         print(f"{method}:")
         if isinstance(info, dict):

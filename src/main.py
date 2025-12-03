@@ -8,8 +8,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from src.task1_parser import PetriNet
 from src.task2_explicit_reachability import explicit_reachability, print_all_markings
 from src.task3_symbolic_reachability import bdd_reachable, compare_methods
-from src.task4_deadlock_detection import deadlock_reachable_marking
-from src.task5_optimize_reachable_markings import max_reachable_marking
+from src.task4_deadlock_detection import deadlock_reachable_marking, evaluate_deadlock_detection
+from src.task5_optimize_reachable_markings import max_reachable_marking, evaluate_max_reachable_marking
 from src.utils import print_separator
 
 from pathlib import Path
@@ -28,25 +28,46 @@ def main():
     pn = PetriNet.from_pnml(args.pnml_file)
 
     if args.task == 2:
-        print(len(explicit_reachability(pn)))
+        errors = pn.validate()
+        if errors:
+            print("Validation errors found:")
+            for e in errors:
+                print(" -", e)
+        else:
+            print_all_markings(pn)
     elif args.task == 3:
-        compare_methods(pn)
+        errors = pn.validate()
+        if errors:
+            print("Validation errors found:")
+            for e in errors:
+                print(" -", e)
+        else:
+            compare_methods(pn)
     elif args.task == 4:
-        bdd, R = bdd_reachable(pn)
-        marking = deadlock_reachable_marking(pn, bdd, R)
-        print(marking)
+        errors = pn.validate()
+        if errors:
+            print("Validation errors found:")
+            for e in errors:
+                print(" -", e)
+        else:
+            bdd, R = bdd_reachable(pn)
+            marking = deadlock_reachable_marking(pn, bdd, R)
+            evaluate_deadlock_detection(pn, bdd, R)
+
     elif args.task == 5:
         if args.c is None:
             print("Task 5 needs vector c. Please enter the amount --c")
         else:
-            bdd, R = bdd_reachable(pn)
-            c = np.array(args.c)
-            marking, value = max_reachable_marking(pn.place_ids, R, c)
+            errors = pn.validate()
+            if errors:
+                print("Validation errors found:")
+                for e in errors:
+                    print(" -", e)
+            else:
+                bdd, R = bdd_reachable(pn)
+                c = np.array(args.c)
+                evaluate_max_reachable_marking(pn.place_ids, R, c)
 
-            print("Optimal marking:", marking)
-            print("Optimal value:", value)
-
-            assert value == max(np.dot(c, m) for m in explicit_reachability(pn))
     else:
         print("Read and check file pnml")
         errors = pn.validate()

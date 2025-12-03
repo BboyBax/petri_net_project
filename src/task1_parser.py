@@ -132,7 +132,7 @@ class PetriNet:
             s = arc.get("source")
             t = arc.get("target")
 
-            # Lấy weight từ nội dung text bên trong arc
+            # Get the weight from the text content inside the arc
             weight_elem = arc.find(".//pnml:text", ns)
             w = int(weight_elem.text) if weight_elem is not None else 1
 
@@ -148,12 +148,12 @@ class PetriNet:
 
     def validate(self) -> list[str]:
         """
-        Kiểm tra các lỗi nghiêm trọng trong Petri Net.
-        Trả về list lỗi (rỗng nếu không có lỗi).
+        Check for critical errors in the Petri Net. 
+        Return a list of errors (empty if there are none).
         """
         errors = []
 
-        # 1. Kiểm tra ID rỗng
+        # 1. Check ID is empty
         for pid in self.place_ids:
             if not pid or pid.strip() == "":
                 errors.append("Place ID is missing or empty")
@@ -161,23 +161,23 @@ class PetriNet:
             if not tid or tid.strip() == "":
                 errors.append("Transition ID is missing or empty")
 
-        # 2. Kiểm tra trùng ID trong cùng loại
+        # 2. Check for duplicate IDs within the same category
         if len(self.place_ids) != len(set(self.place_ids)):
             errors.append("Duplicate Place IDs detected")
         if len(self.trans_ids) != len(set(self.trans_ids)):
             errors.append("Duplicate Transition IDs detected")
 
-        # 3. Kiểm tra ID trùng giữa Place và Transition (tuỳ chọn)
+        # 3. Check for duplicate IDs between Place and Transition (optional)
         overlap = set(self.place_ids).intersection(set(self.trans_ids))
         if overlap:
             errors.append(f"ID used as both Place and Transition: {overlap}")
 
-        # 4. Kiểm tra marking âm
+        # 4. Check for negative marking 
         for i, m in enumerate(self.M0):
             if m < 0:
                 errors.append(f"Initial marking of place {self.place_ids[i]} is negative: {m}")
 
-        # 5. Kiểm tra arcs
+        # 5. Check arcs
         valid_ids = set(self.place_ids) | set(self.trans_ids)
         for arc in self.arcs_ids:
             s, t, w = arc['source'], arc['target'], arc['weight']
@@ -209,11 +209,11 @@ class PetriNet:
         s.append("\nInitial marking M0:")
         s.append(str(self.M0))
         s.append("\nPre_weight matrix:")
-        s.append(str(self.pre_weight))   # ép sang str
+        s.append(str(self.pre_weight))  
         s.append("\nPost_weight matrix:")
-        s.append(str(self.post_weight))  # ép sang str
+        s.append(str(self.post_weight))  
         s.append("\nArcs:")
-        s.append(str(self.arcs_ids))     # ép sang str
+        s.append(str(self.arcs_ids))     
         return "\n".join(s)
 
     

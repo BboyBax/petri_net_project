@@ -77,11 +77,11 @@ def print_all_markings(pn: PetriNet):
 
     print("===== Reachable Markings =====")
     for idx, marking in enumerate(reachable):
-        # marking là tuple (m0, m1, ..., mn)
+        # marking is tuple (m0, m1, ..., mn)
         vec_str = "[" + ", ".join(str(v) for v in marking) + "]"
         map_str = "{" + ", ".join(f"{places[i]}:{marking[i]}" for i in range(len(places))) + "}"
         print(f"m{idx}: {vec_str}  |  {map_str}")
-    print(f"Tổng số reachable markings: {len(reachable)}")
+    print(f"Sum of reachable markings: {len(reachable)}")
     print("===================================")
 
 
