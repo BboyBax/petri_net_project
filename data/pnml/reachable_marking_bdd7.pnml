@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pnml xmlns="http://www.pnml.org/version-2009/grammar/pnml">
+  <net id="mutex_network" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <page id="page1">
+      <place id="Mutex">
+        <initialMarking><text>1</text></initialMarking>
+      </place>
+      <place id="P0_idle">
+        <initialMarking><text>1</text></initialMarking>
+      </place>
+      <place id="P0_wait">
+        <initialMarking><text>0</text></initialMarking>
+      </place>
+      <place id="P0_crit">
+        <initialMarking><text>0</text></initialMarking>
+      </place>
+      <place id="P1_idle">
+        <initialMarking><text>1</text></initialMarking>
+      </place>
+      <place id="P1_wait">
+        <initialMarking><text>0</text></initialMarking>
+      </place>
+      <place id="P1_crit">
+        <initialMarking><text>0</text></initialMarking>
+      </place>
+      <place id="P2_idle">
+        <initialMarking><text>1</text></initialMarking>
+      </place>
+      <place id="P2_wait">
+        <initialMarking><text>0</text></initialMarking>
+      </place>
+      <place id="P2_crit">
+        <initialMarking><text>0</text></initialMarking>
+      </place>
+      <place id="P3_idle">
+        <initialMarking><text>1</text></initialMarking>
+      </place>
+      <place id="P3_wait">
+        <initialMarking><text>0</text></initialMarking>
+      </place>
+      <place id="P3_crit">
+        <initialMarking><text>0</text></initialMarking>
+      </place>
+      <place id="P4_idle">
+        <initialMarking><text>1</text></initialMarking>
+      </place>
+      <place id="P4_wait">
+        <initialMarking><text>0</text></initialMarking>
+      </place>
+      <place id="P4_crit">
+        <initialMarking><text>0</text></initialMarking>
+      </place>
+      <transition id="T0_request"/>
+      <transition id="T0_enter"/>
+      <transition id="T0_exit"/>
+      <transition id="T1_request"/>
+      <transition id="T1_enter"/>
+      <transition id="T1_exit"/>
+      <transition id="T2_request"/>
+      <transition id="T2_enter"/>
+      <transition id="T2_exit"/>
+      <transition id="T3_request"/>
+      <transition id="T3_enter"/>
+      <transition id="T3_exit"/>
+      <transition id="T4_request"/>
+      <transition id="T4_enter"/>
+      <transition id="T4_exit"/>
+      <arc id="arc_idle0_req" source="P0_idle" target="T0_request"/>
+      <arc id="arc_req_wait0" source="T0_request" target="P0_wait"/>
+      <arc id="arc_wait0_enter" source="P0_wait" target="T0_enter"/>
+      <arc id="arc_mutex_enter0" source="Mutex" target="T0_enter"/>
+      <arc id="arc_enter_crit0" source="T0_enter" target="P0_crit"/>
+      <arc id="arc_crit0_exit" source="P0_crit" target="T0_exit"/>
+      <arc id="arc_exit_idle0" source="T0_exit" target="P0_idle"/>
+      <arc id="arc_exit_mutex0" source="T0_exit" target="Mutex"/>
+      <arc id="arc_idle1_req" source="P1_idle" target="T1_request"/>
+      <arc id="arc_req_wait1" source="T1_request" target="P1_wait"/>
+      <arc id="arc_wait1_enter" source="P1_wait" target="T1_enter"/>
+      <arc id="arc_mutex_enter1" source="Mutex" target="T1_enter"/>
+      <arc id="arc_enter_crit1" source="T1_enter" target="P1_crit"/>
+      <arc id="arc_crit1_exit" source="P1_crit" target="T1_exit"/>
+      <arc id="arc_exit_idle1" source="T1_exit" target="P1_idle"/>
+      <arc id="arc_exit_mutex1" source="T1_exit" target="Mutex"/>
+      <arc id="arc_idle2_req" source="P2_idle" target="T2_request"/>
+      <arc id="arc_req_wait2" source="T2_request" target="P2_wait"/>
+      <arc id="arc_wait2_enter" source="P2_wait" target="T2_enter"/>
+      <arc id="arc_mutex_enter2" source="Mutex" target="T2_enter"/>
+      <arc id="arc_enter_crit2" source="T2_enter" target="P2_crit"/>
+      <arc id="arc_crit2_exit" source="P2_crit" target="T2_exit"/>
+      <arc id="arc_exit_idle2" source="T2_exit" target="P2_idle"/>
+      <arc id="arc_exit_mutex2" source="T2_exit" target="Mutex"/>
+      <arc id="arc_idle3_req" source="P3_idle" target="T3_request"/>
+      <arc id="arc_req_wait3" source="T3_request" target="P3_wait"/>
+      <arc id="arc_wait3_enter" source="P3_wait" target="T3_enter"/>
+      <arc id="arc_mutex_enter3" source="Mutex" target="T3_enter"/>
+      <arc id="arc_enter_crit3" source="T3_enter" target="P3_crit"/>
+      <arc id="arc_crit3_exit" source="P3_crit" target="T3_exit"/>
+      <arc id="arc_exit_idle3" source="T3_exit" target="P3_idle"/>
+      <arc id="arc_exit_mutex3" source="T3_exit" target="Mutex"/>
+      <arc id="arc_idle4_req" source="P4_idle" target="T4_request"/>
+      <arc id="arc_req_wait4" source="T4_request" target="P4_wait"/>
+      <arc id="arc_wait4_enter" source="P4_wait" target="T4_enter"/>
+      <arc id="arc_mutex_enter4" source="Mutex" target="T4_enter"/>
+      <arc id="arc_enter_crit4" source="T4_enter" target="P4_crit"/>
+      <arc id="arc_crit4_exit" source="P4_crit" target="T4_exit"/>
+      <arc id="arc_exit_idle4" source="T4_exit" target="P4_idle"/>
+      <arc id="arc_exit_mutex4" source="T4_exit" target="Mutex"/>
+    </page>
+  </net>
+</pnml>

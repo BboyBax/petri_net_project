@@ -4,7 +4,7 @@ Tính toán và biểu diễn reachable markings bằng BDD.
 """
 
 import collections
-from typing import Tuple, List, Optional
+from typing import Tuple, List, Optional, Dict, Iterator
 from pyeda.inter import *
 import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -15,10 +15,9 @@ import numpy as np
 
 import time
 import tracemalloc
-import psutil, os
+import psutil
 
 from dd.autoref import BDD
-from typing import Dict, List, Tuple, Iterator
 
 
 
@@ -151,23 +150,6 @@ def extract_markings(bdd: BDD, R, places: List[str]) -> Iterator[Dict[str, int]]
             marking[p] = val
         yield marking
 
-def print_all_markings_bdd(pn: PetriNet, bdd: BDD, R) -> None:
-    places = pn.place_ids
-    count = 0
-    for assign in bdd.pick_iter(R):
-        marking_vec = []
-        for p in places:
-            val = 0
-            for i in range(BITS):
-                bitname = f"{p}_{i}"
-                if assign.get(bitname, False):
-                    val |= (1 << i)
-            marking_vec.append(val)
-        print(f"m{count}: {marking_vec}  |  " +
-              "{" + ", ".join(f"{p}:{marking_vec[i]}" for i, p in enumerate(places)) + "}")
-        count += 1
-    print(f"Sum of reachable markings: {count}")
-
 def compare_methods(pn: PetriNet):
     results = {}
     tracemalloc.start()
@@ -207,4 +189,3 @@ def compare_methods(pn: PetriNet):
             print(f"  {info}")
     print("===================================")
     return results
-
