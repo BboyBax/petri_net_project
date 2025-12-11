@@ -17,15 +17,23 @@
 
 Yêu cầu:
 - Python 
+- Conda
 - Các thư viện: `numpy`, `pyeda`, `pulp`, `dd`, `pytest`
 
 Cài đặt:
 ```bash
 git clone https://github.com/BboyBax/petri_net_project
 cd petri_net_project
+
 conda env create -f environment.yml
 conda activate petri-net-env
+
+git branch -a
+
+git checkout completed_all_tasks
 ```
+
+git checkout completed_all_tasks
 ## Cách sử dụng
 ```bash
 python src/main.py <đường_dẫn_file_pnml> --task <số_task> [tùy_chọn]
